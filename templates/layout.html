@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/1dd5ba606d.js" crossorigin="anonymous"></script>
+    <title>{{ title }}</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}"><i class="fas fa-book-open"> Home</i></a></li>
+                {% if logged %}
+                    <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-graduate"> Profile</i></a></li>
+                    <li><a href="{{ url_for('search') }}"><i class="fas fa-search"> Search</i></a></li>
+                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-out-alt"> LogOut</i></a></li>
+                {% else %}
+                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-in-alt"> LogIn</i></a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>{% block heading %}{% endblock %}</h1>
+        <article>
+            {% block body %}{% endblock %}
+        </article>
+    </main>
+    <footer>
+        <p>All rights reserved 2020 ®</p>
+    </footer>
+</body>
+</html>

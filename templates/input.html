@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <h1>Enter part or whole title, author or ISBN number of the book you search</h1>
+{% endblock %}
+
+{% block body %}
+    <form action="{{ url_for('search') }}" method="post">
+        <input type="text" name="searched" placeholder="Enter title, author or ISBN number">
+        <button>Search</button>
+    </form>
+
+    <div class="results">
+        {% if results %}
+        <table>
+            <tr>
+                <th>No.</th>
+                <th>ISBN</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Year</th>
+                <th></th>
+            </tr>
+            {% for result in results %}
+
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{result.isbn}}</td>
+                    <td>{{result.author}}</td>
+                    <td>{{result.title}}</td>
+                    <td>{{result.year}}</td>
+                    <td><a href="book/{{result.isbn}}"> <i class="fas fa-link"></i> <i class="fas fa-angle-double-right"></i> <i class="fas fa-external-link-square-alt"></i> <i class="fas fa-play"></i> <i class="fas fa-book"></i> <i class="fas fa-paperclip"></i></a></td>
+                </tr>
+
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No matches found</p>
+        {% endif %}
+    </div>
+{% endblock %}

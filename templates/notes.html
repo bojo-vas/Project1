@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <h1>Notes:</h1>
+{% endblock %}
+
+{% block body %}
+    <ol>
+        {% for n in notes %}
+            <li>{{ n }}</li>
+        {% endfor %}
+    </ol>
+
+    <form action="{{ url_for('add_note') }}" method="post">
+        <input type="text" name="note" placeholder="Enter your note:" autofocus>
+        <button>Add</button>
+        <button name="clear" value="True">Clear Last</button>
+        <button name="clearall" value="True">Clear ALL</button>
+    </form>
+
+{% endblock %}

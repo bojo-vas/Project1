@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <h1>About to log out</h1>
+{% endblock %}
+
+{% block body %}
+    <p>Thank you for your visit {{ username }}!</p>
+    <form action="{{ url_for('log') }}" method="post">
+
+        <button name="logout" value="True">Log Out</button>
+
+    </form>
+{% endblock %}
