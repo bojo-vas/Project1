@@ -16,3 +16,16 @@ https://adminer.cs50.net/?pgsql=ec2-54-165-36-134.compute-1.amazonaws.com&userna
 
 Heroku:
 https://data.heroku.com/datastores/5beeb60e-4702-47ea-8fc3-acd1d7fa20ac
+
+
+
+Host		ec2-3-222-30-53.compute-1.amazonaws.com
+Database	dbvaqseneb84gm
+User		vyzeivwoctbgzy
+Port		5432
+
+Password	c934b12faf2c3fe92c0e117e96b20aed1679e2b8406bc256d9043bbb1e447e76
+
+URI		postgres://vyzeivwoctbgzy:c934b12faf2c3fe92c0e117e96b20aed1679e2b8406bc256d9043bbb1e447e76@ec2-3-222-30-53.compute-1.amazonaws.com:5432/dbvaqseneb84gm
+
+Heroku CLI	heroku pg:psql postgresql-colorful-39225 --app bojo-project1

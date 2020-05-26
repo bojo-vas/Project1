@@ -29,13 +29,17 @@
                     <td>{{result.author}}</td>
                     <td>{{result.title}}</td>
                     <td>{{result.year}}</td>
-                    <td><a href="book/{{result.isbn}}"> <i class="fas fa-link"></i> <i class="fas fa-angle-double-right"></i> <i class="fas fa-external-link-square-alt"></i> <i class="fas fa-play"></i> <i class="fas fa-book"></i> <i class="fas fa-paperclip"></i></a></td>
+                    <td><a href="book/{{result.isbn}}"> <i class="fas fa-book"></i></a></td>
                 </tr>
 
             {% endfor %}
         </table>
         {% else %}
-        <p>No matches found</p>
+            {% if first %}
+                <p></p>
+            {% else %}
+                <p>No matches found</p>
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

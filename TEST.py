@@ -67,7 +67,7 @@ def hello_name():
     if request.method == "GET":
         return "Please use the form!"
     name = request.form.get("name").capitalize()
-    return render_template("hello.html", name=name)
+    return render_template("error.html", name=name)
 
 
 @app.route("/notes", methods=["GET", "POST"])

@@ -45,7 +45,7 @@ def log():
     if session["is_logged"]:
         if request.method == "POST" and request.form.get("logout"):
             session["is_logged"] = False
-            # session.clear()
+            # session['user_id'] = ''
 
             return render_template("login.html", title="Log In", logged=session["is_logged"])
         return render_template("logout.html", title="Logging Out...", username=session["username"], logged=session["is_logged"])
@@ -130,16 +130,20 @@ def register():
 
 @app.route("/search", methods=["GET", "POST"])  # ISBN number of a book, the title of a book, or the author
 def search():
-    results = []
+    if session["is_logged"]:
+        results = []
 
-    if request.method == "POST" and request.form.get("searched"):
-        searched_data = request.form.get("searched")
-        all_searched_words = str(searched_data).lower().split()
-        for word in all_searched_words:
+        if request.method == "POST" and request.form.get("searched"):
+            searched_data = request.form.get("searched")
+            # all_searched_words = str(searched_data).lower().split()
+            word = str(searched_data).lower()
+            # for word in all_searched_words:
             results.extend(db.execute(
-                f"SELECT * FROM books WHERE LOWER(isbn) LIKE '%{word}%' OR LOWER(author) LIKE '%{word}%' OR LOWER(title) LIKE '%{word}%'").fetchall())
-
-    return render_template("input.html", logged=session["is_logged"], results=results)
+                f"SELECT * FROM books WHERE LOWER(isbn) LIKE '%{word}%' OR LOWER(author) LIKE '%{word}%' "
+                f"OR LOWER(title) LIKE '%{word}%' ORDER BY author LIMIT 100").fetchall())
+            return render_template("input.html", logged=session["is_logged"], results=results, first=False)
+        return render_template("input.html", logged=session["is_logged"], results=results, first=True)
+    return render_template("error.html", message="Unavailable", info="Please log in to use all functionality available")
 
 
 # details about the book: title, author, publication year, ISBN number, and any reviews + Goodreads Review Data
@@ -150,30 +154,26 @@ def book(isbn: str):
     session['book_isbn'] = isbn
     session['now_book'] = curr_book
 
-    gave_review = db.execute(f"SELECT * FROM reviews WHERE isbn = '{isbn}' AND user_id = '{session['user_id']}'").fetchone()
-    session['gave_review'] = gave_review
+    if session["is_logged"]:
+        gave_review = db.execute(f"SELECT * FROM reviews WHERE isbn = '{isbn}' AND user_id = '{session['user_id']}'").fetchone()
+        session['gave_review'] = gave_review
 
-    # reviews = db.execute(f"SELECT * FROM reviews JOIN users ON users.id=reviews.user_id WHERE isbn = '{isbn}' "
-    #                      f"AND user_id != '{session['user_id']}'").fetchall()
+        reviews = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
+                         f"WHERE isbn = '{isbn}' AND user_id != '{session['user_id']}' ORDER BY reviews.id DESC").fetchall()
 
-    reviews = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
-                         f"WHERE isbn = '{isbn}' AND user_id != '{session['user_id']}'").fetchall()
-
-    session['reviews'] = reviews
-    print(reviews)
-
+        session['reviews'] = reviews
     #GOODREADS info
-    result = requests.get("https://www.goodreads.com/book/review_counts.json",
-                         params={"key": "OkeAxEncKe0vfY0MlZsiw", "isbns": f"{isbn}"})
-    book_info = result.json()
+        result = requests.get("https://www.goodreads.com/book/review_counts.json",
+                             params={"key": "OkeAxEncKe0vfY0MlZsiw", "isbns": f"{isbn}"})
+        book_info = result.json()
 
-    session["rating"] = book_info["books"][0]["average_rating"]
-    session["count"] = book_info["books"][0]["ratings_count"]
+        session["rating"] = book_info["books"][0]["average_rating"]
+        session["count"] = book_info["books"][0]["ratings_count"]
 
-
-    # user = db.execute(f"SELECT username FROM users WHERE id = '{book_isbn}'").fetchall()
-    return render_template("book.html", logged=session["is_logged"], book=session['now_book'], gave_review=gave_review,
+        return render_template("book.html", logged=session["is_logged"], book=session['now_book'], gave_review=gave_review,
                            reviews=reviews, rating=session["rating"], count=session["count"])
+
+    return render_template("book.html", logged=session["is_logged"], book=session['now_book'], message="Unavailable")
 
 
 @app.route("/rate", methods=["GET", "POST"])  # only one customer review per book
@@ -184,14 +184,41 @@ def rate():
         if not comment:
             comment = None
 
-        # submit to db
-        db.execute(
-            "INSERT INTO reviews (isbn, user_id, comment, score) VALUES (:isbn, :user_id, :comment, :score)",
-            {"isbn": session['book_isbn'], "user_id": session['user_id'], "comment": comment, "score": score})
-        db.commit()
-
-        session['gave_review'] = db.execute(
+        gave_review = db.execute(
             f"SELECT * FROM reviews WHERE isbn = '{session['book_isbn']}' AND user_id = '{session['user_id']}'").fetchone()
+        session['gave_review'] = gave_review
+        # submit to db
+        if not gave_review:
+            db.execute(
+                "INSERT INTO reviews (isbn, user_id, comment, score) VALUES (:isbn, :user_id, :comment, :score)",
+                {"isbn": session['book_isbn'], "user_id": session['user_id'], "comment": comment, "score": score})
+            db.commit()
+
+            session['gave_review'] = db.execute(
+                f"SELECT * FROM reviews WHERE isbn = '{session['book_isbn']}' "
+                f"AND user_id = '{session['user_id']}'").fetchone()
 
     return render_template("book.html", logged=session["is_logged"], book=session['now_book'], gave_review=session['gave_review'],
                            reviews=session['reviews'], rating=session["rating"], count=session["count"])
+
+
+@app.route("/api/<isbn>", methods=["GET"])
+def api(isbn):
+    app.config['JSON_SORT_KEYS'] = False
+
+    book = db.execute(f"SELECT * FROM books WHERE isbn='{isbn}'").fetchone()
+    if book:
+        result = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "OkeAxEncKe0vfY0MlZsiw?!", "isbns": f"{isbn}"})
+        book_info = result.json()
+
+        book_data = {
+            "title": book.title,
+            "author": book.author,
+            "year": book.year,
+            "isbn": isbn,
+            "review_count": book_info["books"][0]["ratings_count"],
+            "average_score": book_info["books"][0]["average_rating"]
+        }
+
+        return book_data
+    return render_template("error.html", message="Error 404", info="No such book ISBN in database. Please try again.")
