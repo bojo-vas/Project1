@@ -1,0 +1,25 @@
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: blue;
+  background-color: white;
+  max-width: 70em;
+  margin: 0 auto;
+}
+
+header {
+  width: 100%;
+}
+
+header nav {
+  display: flex;
+  
+}
+
+header nav ul {
+  list-style: none;
+}
+
+main {
+  background-color: greenyellow;
+}
+/*# sourceMappingURL=style.css.map */

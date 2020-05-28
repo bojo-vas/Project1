@@ -1,0 +1,27 @@
+$fontcolor: rgb(40, 27, 153);
+$backcolor: rgb(255, 255, 255);
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    color: $fontcolor;
+    background-color: $backcolor;
+    max-width: 50em;
+    margin: 0 auto;
+}
+
+header {
+    width: 100%;
+    nav{
+        display: flex;
+        align-items: flex-end;
+
+        ul {
+            
+            list-style: none;
+        }
+    }
+}
+
+main {
+    background-color: greenyellow;
+}

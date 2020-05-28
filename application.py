@@ -17,6 +17,7 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.static_folder = 'static'
 Session(app)
 
 # Set up database
@@ -30,6 +31,16 @@ def home():
         session["is_logged"] = False
     title = "BestBooks.com"
     headline = "HOME"
+    last_revs = db.execute("SELECT users.username, users.name, users.age, "
+                           "books.author, books.title, "
+                           "reviews.score, reviews.comment "
+                           "FROM reviews INNER JOIN users ON reviews.user_id=users.id "
+                           "INNER JOIN books ON reviews.isbn=books.isbn "
+                         "ORDER BY reviews.id DESC LIMIT 3").fetchall()
+    # most_rated = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
+    #                      f"ORDER BY reviews.id DESC LIMIT 3").fetchall()
+    [print(i) for i in last_revs]
+
     return render_template("index.html", title=title, headline=headline, logged=session["is_logged"])
 
 
