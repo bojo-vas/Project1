@@ -37,11 +37,13 @@ def home():
                            "FROM reviews INNER JOIN users ON reviews.user_id=users.id "
                            "INNER JOIN books ON reviews.isbn=books.isbn "
                          "ORDER BY reviews.id DESC LIMIT 3").fetchall()
+
     # most_rated = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
     #                      f"ORDER BY reviews.id DESC LIMIT 3").fetchall()
     [print(i) for i in last_revs]
 
-    return render_template("index.html", title=title, headline=headline, logged=session["is_logged"])
+    return render_template("index.html", title=title, headline=headline, 
+    logged=session["is_logged"], last_revs=last_revs)
 
 
 @app.route("/profile")  # username, password change, name, picture?!, reviewed books, highest, lowest, user-rating

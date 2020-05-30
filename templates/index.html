@@ -5,6 +5,23 @@
 {% endblock %}
 
  {% block body %}
-
+    <div class="last">
+        <h2>Last Reviews:</h2>
+        {% for rev in last_revs %}
+        <div class="card">
+            <h3>{{ rev.title }} by {{ rev.author }}</h3>
+            <h4>{{ rev.score }}</h4>
+            {% if rev.comment %}
+            <p>{{ rev.comment }}</p>
+            {% endif %}
+            {% if rev.name %}
+            <p>{{ rev.name }}</p>
+            {% else %}
+            <p>{{ rev.username }}</p>
+            {% endif %}
+        </div>
+        <p>----------------</p>
+        {% endfor %}
+    </div>
 
 {% endblock %}
