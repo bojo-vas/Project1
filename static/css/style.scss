@@ -1,27 +1,186 @@
-$fontcolor: rgb(40, 27, 153);
-$backcolor: rgb(255, 255, 255);
+$fontcolor: black;
+$backcolor: rgb(226, 202, 118);
+$maincolor: white;
+$titlecolor: rgb(189, 139, 74);
+
+* {
+    border: 0px solid;
+    border-radius: 1em;
+}
 
 body {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: $fontcolor;
     background-color: $backcolor;
-    max-width: 50em;
+    max-width: 65em;
     margin: 0 auto;
+  
+}
+
+a {
+    text-decoration: none;
+}
+
+.fa-search {
+    transform: rotate(0.27turn);
+    margin-right: 0.1em;
 }
 
 header {
+    margin: 0.5em 0 0 1em;
+    padding: 1.5em;
     width: 100%;
+    background-color: $fontcolor;  
+    
     nav{
-        display: flex;
-        align-items: flex-end;
-
+              
         ul {
-            
+            display: flex;
             list-style: none;
+            justify-content: flex-end;
         }
+
+        li {
+            font-size: 1.4em;
+            padding: 0 0.7em;
+        }
+
+        a {
+            color: $backcolor;
+            display: flex;
+            align-items: center;
+        }
+
+        .label {
+            padding-bottom: 0.2em;
+        }
+
+        i {
+            padding-right: 0.2em;
+        }
+
     }
 }
 
 main {
-    background-color: greenyellow;
+    padding: 0.7em;
+    width: 100%;
+    margin-top: -1em;
+    background-color: $maincolor;
+    flex-grow: grow;
+}
+
+.title {
+    background-color: $titlecolor;
+    margin-top: -2.5em;
+    margin-left: -0.3em;
+    max-width: 30%;
+    text-align: center;
+
+    h1 {
+        color: white;
+        font-size: 2.5em;
+        padding: 0.1em 0;
+    }
+}
+
+.search {
+    // input {
+    //     background-color: $backcolor;
+    //     min-height: 1.5em;
+
+    // }
+}
+
+.inbook {
+    form {
+        position: relative;
+        min-height: 1.4em;
+        
+        * {
+            color: white;
+            background-color: $titlecolor;
+        }
+        
+    }
+
+    input {
+        border: 0px solid;
+        border-bottom: 1px solid white;
+        border-radius: 0;
+        font-size: 0.5em;
+        width: 90%;
+        margin-left: 0.3em;
+        
+        
+    }
+
+    button {
+        position: absolute;
+        right: 0.15em;
+        bottom: 0.05em;
+        font-size: 1em;
+    }
+
+    ::placeholder {
+        color: white
+    }
+
+    textarea:focus, input:focus{
+        outline: none;
+    }
+}
+
+.content {
+    padding-top: 0.5em;
+}
+
+.books {
+    display: flex;
+    font-size: 0.9em;
+    h2 {
+        padding-bottom: 0.5em;
+    }
+    > * {
+       padding: 0.5em;
+   }
+    
+   .last {
+        background-color: yellow;
+        margin-bottom: 2em;
+        flex-basis: 70%;
+        flex-grow: 2;
+
+        article {
+            max-width: 75%;
+            display: flex;         
+            
+        }
+        
+    }
+
+    .most {
+        flex-basis: 30%;
+        flex-grow: 1;
+
+        background-color: yellowgreen;
+        margin-top: 2em;
+        margin-left: -20%;
+
+    }
+    
+    .horizontal {
+        padding: 0.5em;
+        margin: 0 0.1em;
+    }
+    
+    .author, h4 {
+        text-align: right;
+    }
+}
+
+
+
+footer {
+    text-align: right;
 }

@@ -1,14 +1,17 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    <h1>Enter part or whole title, author or ISBN number of the book you search</h1>
+    <h1><i class="fas fa-search"></i> Search</h1>
 {% endblock %}
 
 {% block body %}
-    <form action="{{ url_for('search') }}" method="post">
-        <input type="text" name="searched" placeholder="Enter title, author or ISBN number">
-        <button>Search</button>
-    </form>
+    <div class="search">
+        <form action="{{ url_for('search') }}" method="post">
+            <p>Enter part or whole title, author or ISBN number of the book you search</p>
+            <input type="text" name="searched" placeholder="Enter title, author or ISBN number">
+            <button><i class="fas fa-search"></i>Search</button>
+        </form>
+    </div>
 
     <div class="results">
         {% if results %}

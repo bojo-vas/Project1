@@ -12,21 +12,21 @@
     <header>
         <nav>
             <ul>
-                <li><a href="{{ url_for('home') }}"><i class="fas fa-book-open"> Home</i></a></li>
+                <li><a href="{{ url_for('home') }}"><i class="fas fa-book-open"></i><div class="label">Home</div></a></li>
                 {% if logged %}
-                    <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-graduate"> Profile</i></a></li>
-                    <li><a href="{{ url_for('search') }}"><i class="fas fa-search"> Search</i></a></li>
-                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-out-alt"> LogOut</i></a></li>
+                    <li><a href="{{ url_for('profile') }}"><i class="fas fa-user-graduate"></i><div class="label">Profile</div></a></li>
+                    <li><a href="{{ url_for('search') }}"><i class="fas fa-search"></i><div class="label">Search</div></a></li>
+                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-out-alt"></i><div class="label">LogOut</div></a></li>
                 {% else %}
-                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-in-alt"> LogIn</i></a></li>
+                    <li><a href="{{ url_for('log') }}"><i class="fas fa-sign-in-alt"></i><div class="label">LogIn</div></a></li>
                 {% endif %}
 
             </ul>
         </nav>
     </header>
     <main>
-        <h1>{% block heading %}{% endblock %}</h1>
-        <article>
+        <div class="title"><h1>{% block heading %}{% endblock %}</h1></div>
+        <article class="content">
             {% block body %}{% endblock %}
         </article>
     </main>

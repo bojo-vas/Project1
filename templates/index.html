@@ -5,23 +5,37 @@
 {% endblock %}
 
  {% block body %}
-    <div class="last">
-        <h2>Last Reviews:</h2>
-        {% for rev in last_revs %}
-        <div class="card">
-            <h3>{{ rev.title }} by {{ rev.author }}</h3>
-            <h4>{{ rev.score }}</h4>
-            {% if rev.comment %}
-            <p>{{ rev.comment }}</p>
-            {% endif %}
-            {% if rev.name %}
-            <p>{{ rev.name }}</p>
-            {% else %}
-            <p>{{ rev.username }}</p>
-            {% endif %}
+    <div class="books">
+        <div class="last review">
+            <h2>Last Reviews by users</h2>
+            <article>
+                {% for rev in last_revs %}
+                    <div class="card horizontal">
+                    <a href="book/{{rev.isbn}}"><h3>{{ rev.title }} by {{ rev.author }}</h3></a>
+                    <h4>{{ rev.score }} out of 5</h4>
+                    {% if rev.comment %}
+                    <p>{{ rev.comment }}</p>
+                    {% endif %}
+                    {% if rev.name %}
+                    <p class="author">Author: {{ rev.name }}</p>
+                    {% else %}
+                    <p class="author">Author: {{ rev.username }}</p>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+            </article>
         </div>
-        <p>----------------</p>
-        {% endfor %}
+        <div class="most review">
+            <h2>Most Reviewed Books</h2>
+            {% for rev in most_rated %}
+            <div class="card vertical">
+                <a href="book/{{rev.isbn}}"><h3>{{ rev.title }} by {{ rev.author }}</h3></a>
+                <h4>Score: {{ (rev.total / rev.revs)|round(2) }} out of 5.0</h4>
+                <p>from {{ rev.revs }} user reviews</p>
+            </div>
+            <p>----------------</p>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

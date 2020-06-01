@@ -1,0 +1,71 @@
+/* @media screen and (min-width: 801px) {
+    .info {
+        padding: 3em 4.5em 1em 4.5em;
+        font-size: 1.8em;  
+    }   
+
+    html {
+        font-size: 14px;
+    }
+
+    header {
+        flex: 10vh 0 1;
+    }
+
+    .intext {
+        max-width: 18em;
+        max-height: 15em;
+    }
+    
+    .history {
+        height: 82vh;
+        overflow: auto;
+    }
+} */
+
+@media screen and (max-width: 750px) {
+    .label {
+        display: none;
+    }
+
+    .title {
+        font-size: 0.8em;
+    }
+
+    .books {
+        display: block;       
+    }
+
+    .review {
+        margin: 0 !important;
+        max-width: 100% !important;
+    }
+
+    article {
+        max-width: 100 !important;
+}    
+
+/* @media screen and (max-width: 475px) {
+    /* h3 {
+        clear: both;
+    } */
+/*     
+    .intext {
+        max-width: 100%;
+    }
+
+    nav li {
+        font-size: 0.8em !important;
+    }
+}
+
+
+@media screen and (max-height: 800px) {
+    html {
+        font-size: 12px;
+    }
+    
+    header {
+        flex: 8vh 0 1;
+    }
+} */ */

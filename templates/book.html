@@ -1,13 +1,15 @@
 {% extends "layout.html" %}
 
 {% block heading %}
+    <div class="inbook search">
+        <form action="{{ url_for('search') }}" method="post">
+            <input type="text" name="searched" placeholder="Enter title, author or ISBN">
+            <button><i class="fas fa-search"></i></button>
+        </form>
+    </div>
 {% endblock %}
 
-{% block body %}
-    <form action="{{ url_for('search') }}" method="post">
-        <input type="text" name="searched" placeholder="Enter title, author or ISBN number">
-        <button>Search</button>
-    </form>
+{% block body %}    
      <h1>{{ book.title }}</h1>
     {% if logged %}
         <div class="book info">

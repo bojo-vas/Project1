@@ -2,7 +2,7 @@ import datetime
 
 import os
 
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, redirect, url_for
 from flask_session import Session
 from pip._vendor import requests
 from sqlalchemy import create_engine
@@ -17,6 +17,7 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.static_folder = 'static'
 Session(app)
 
@@ -31,26 +32,29 @@ def home():
         session["is_logged"] = False
     title = "BestBooks.com"
     headline = "HOME"
+
     last_revs = db.execute("SELECT users.username, users.name, users.age, "
-                           "books.author, books.title, "
+                           "books.isbn, books.author, books.title, "
                            "reviews.score, reviews.comment "
                            "FROM reviews INNER JOIN users ON reviews.user_id=users.id "
                            "INNER JOIN books ON reviews.isbn=books.isbn "
                          "ORDER BY reviews.id DESC LIMIT 3").fetchall()
 
-    # most_rated = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
-    #                      f"ORDER BY reviews.id DESC LIMIT 3").fetchall()
-    [print(i) for i in last_revs]
+    most_rated = db.execute("SELECT isbn, author, title, revs, total "
+                            "FROM books ORDER BY revs DESC LIMIT 3").fetchall()
 
     return render_template("index.html", title=title, headline=headline, 
-    logged=session["is_logged"], last_revs=last_revs)
+    logged=session["is_logged"], last_revs=last_revs, most_rated=most_rated)
 
 
 @app.route("/profile")  # username, password change, name, picture?!, reviewed books, highest, lowest, user-rating
 def profile():
     title = "User Profile"
-    headline = "User Profile (only visible if logged in)"
-    return render_template("index.html", title=title, headline=headline, logged=session["is_logged"])
+    headline = "User Profile"
+
+    last_revs = db.execute(f"SELECT books.isbn, books.author, books.title, reviews.score, reviews.comment FROM reviews INNER JOIN books ON reviews.isbn=books.isbn WHERE reviews.user_id={session['user_id']} ORDER BY reviews.id DESC LIMIT 10 ").fetchall()
+    
+    return render_template("index.html", title=title, headline=headline, logged=session["is_logged"], last_revs=last_revs)
 
 
 @app.route("/log", methods=["GET", "POST"])
@@ -58,9 +62,8 @@ def log():
     if session["is_logged"]:
         if request.method == "POST" and request.form.get("logout"):
             session["is_logged"] = False
-            # session['user_id'] = ''
-
-            return render_template("login.html", title="Log In", logged=session["is_logged"])
+            return redirect(url_for('home'))
+            # return render_template("login.html", title="Log In", logged=session["is_logged"])
         return render_template("logout.html", title="Logging Out...", username=session["username"], logged=session["is_logged"])
     else:
         return render_template("login.html", title="Log In", logged=session["is_logged"])
@@ -91,8 +94,8 @@ def log_in():
                 session["user_id"] = user.id
                 session["user_name"] = user.name
                 session["is_logged"] = True
-
-        return render_template("index.html", title="BestBooks.com", headline=f"Hello {username}!", logged=session["is_logged"])
+        return redirect(url_for('home'))
+        # return render_template("index.html", title="BestBooks.com", headline=f"Hello {username}!", logged=session["is_logged"])
     return render_template("login.html", title="Log In", logged=session["is_logged"])
 
 
@@ -166,7 +169,7 @@ def book(isbn: str):
     curr_book = db.execute(f"SELECT * FROM books WHERE isbn = '{isbn}'").fetchone()
     session['book_isbn'] = isbn
     session['now_book'] = curr_book
-
+    
     if session["is_logged"]:
         gave_review = db.execute(f"SELECT * FROM reviews WHERE isbn = '{isbn}' AND user_id = '{session['user_id']}'").fetchone()
         session['gave_review'] = gave_review
@@ -184,9 +187,9 @@ def book(isbn: str):
         session["count"] = book_info["books"][0]["ratings_count"]
 
         return render_template("book.html", logged=session["is_logged"], book=session['now_book'], gave_review=gave_review,
-                           reviews=reviews, rating=session["rating"], count=session["count"])
+                           reviews=reviews, rating=session["rating"], count=session["count"], headline = isbn)
 
-    return render_template("book.html", logged=session["is_logged"], book=session['now_book'], message="Unavailable")
+    return render_template("book.html", logged=session["is_logged"], book=session['now_book'], message="Unavailable", headline = isbn)
 
 
 @app.route("/rate", methods=["GET", "POST"])  # only one customer review per book
