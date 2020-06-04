@@ -197,7 +197,7 @@ def rate():
     if request.method == "POST" and request.form.get("score"):
         score = request.form.get("score")
         comment = request.form.get("comment")
-        print(comment)
+        
         if not comment:
             comment = None
 
@@ -209,6 +209,7 @@ def rate():
             db.execute(
                 "INSERT INTO reviews (isbn, user_id, comment, score) VALUES (:isbn, :user_id, :comment, :score)",
                 {"isbn": session['book_isbn'], "user_id": session['user_id'], "comment": comment, "score": score})
+            db.execute(f"UPDATE books SET revs = revs + 1, total = total + {score} WHERE isbn = '{session['book_isbn']}'")
             db.commit()
 
             session['gave_review'] = db.execute(

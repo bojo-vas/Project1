@@ -44,6 +44,9 @@
     article {
         max-width: 100 !important;
 }    
+    .large {
+        display: block;
+    }
 
 /* @media screen and (max-width: 475px) {
     /* h3 {

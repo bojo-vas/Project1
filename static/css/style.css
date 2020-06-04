@@ -12,6 +12,19 @@ body {
   margin: 0 auto;
 }
 
+.body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
 a {
   text-decoration: none;
   cursor: pointer;
@@ -19,6 +32,17 @@ a {
 
 button {
   cursor: pointer;
+}
+
+form button {
+  font-size: 1em;
+  border: 1.5px solid black;
+  padding: 0.25em;
+  margin: 0.5em 0;
+}
+
+form button:hover {
+  background-color: #bd8b4a;
 }
 
 textarea:focus, input:focus {
@@ -76,9 +100,11 @@ main {
   width: 100%;
   margin-top: -1em;
   background-color: white;
-  -webkit-box-flex: grow;
-      -ms-flex-positive: grow;
-          flex-grow: grow;
+  -ms-flex-preferred-size: 85vh;
+      flex-basis: 85vh;
+  -webkit-box-flex: 9;
+      -ms-flex-positive: 9;
+          flex-grow: 9;
 }
 
 .title {
@@ -96,7 +122,7 @@ main {
 }
 
 .search form {
-  margin-bottom: 1em;
+  margin: 1em 0;
 }
 
 .search input {
@@ -105,20 +131,6 @@ main {
   border: 1.5px solid black;
   width: 15em;
   padding: 0.2em 0.5em;
-}
-
-.search button {
-  font-size: 1em;
-  border: 1.5px solid black;
-  padding: 0.25em;
-}
-
-.search button:hover {
-  background-color: #bd8b4a;
-}
-
-.search p {
-  padding: 1em 0;
 }
 
 .results table {
@@ -171,11 +183,14 @@ main {
   margin-left: 0.3em;
 }
 
-.inbook button {
+.inbook #magnifier {
+  border: 0px solid black;
+  padding: 0;
+  margin: 0;
   position: absolute;
-  right: 0.15em;
-  bottom: 0.05em;
-  font-size: 1em;
+  right: 0.1em;
+  top: 0;
+  font-size: 1.3em;
 }
 
 .inbook i:hover {
@@ -212,19 +227,20 @@ main {
 }
 
 .score form textarea {
+  margin-bottom: 0.2em;
   font-size: 1.3em;
   padding: 0.5em;
   max-width: 90%;
   min-width: 90%;
-  min-height: 6em;
-  border: 1px solid #bd8b4a;
+  border: 2px solid #bd8b4a;
 }
 
 .score form button {
+  margin-top: 0em;
   width: 90%;
   background-color: #bd8b4a;
   color: white;
-  font-size: 1em;
+  font-size: 1.5em;
 }
 
 .score form input[type=radio] {
@@ -254,8 +270,90 @@ main {
   background-color: #bd8b4a;
 }
 
+.info {
+  margin-top: 0.5em;
+}
+
+.info * {
+  margin-top: 0.3em;
+}
+
+.your {
+  margin-top: 2em;
+  border: 2px solid #bd8b4a;
+  padding: 0.5em 1em;
+}
+
+.your .stars {
+  text-align: left;
+}
+
+.your i {
+  font-size: 1.8em;
+  color: #bd8b4a;
+  margin: 0.5em 0;
+}
+
+.flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.left {
+  -ms-flex-preferred-size: 55%;
+      flex-basis: 55%;
+}
+
+.right {
+  -ms-flex-preferred-size: 40%;
+      flex-basis: 40%;
+}
+
+.comment {
+  width: 100%;
+  background-color: #e2ca76;
+  margin-top: 0.5em;
+  padding: 1em;
+}
+
+.others {
+  border: 2px solid #bd8b4a;
+  padding: 0.5em 1em;
+  margin-top: 0.5em;
+  background-color: #e2ca76;
+}
+
+.others .comment {
+  background-color: wheat;
+}
+
+.others .flex {
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+.others .flex * {
+  margin-right: 1em;
+}
+
+.others .stars i {
+  color: rgba(97, 75, 34, 0.76);
+}
+
+.others * {
+  margin-bottom: 0.2em;
+}
+
 .content {
+  max-width: 90%;
+  margin: 0 auto;
   padding-top: 0.5em;
+  display: block;
 }
 
 .books {
@@ -273,8 +371,8 @@ main {
   padding: 0.5em;
 }
 
-.books .last {
-  background-color: yellow;
+.books .most {
+  background-color: wheat;
   margin-bottom: 2em;
   -ms-flex-preferred-size: 70%;
       flex-basis: 70%;
@@ -283,34 +381,70 @@ main {
           flex-grow: 2;
 }
 
-.books .last article {
+.books .most article {
   max-width: 75%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  min-height: 80%;
 }
 
-.books .most {
+.books .last {
   -ms-flex-preferred-size: 30%;
       flex-basis: 30%;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
-  background-color: yellowgreen;
+  background-color: #bd8b4a;
   margin-top: 2em;
   margin-left: -20%;
 }
 
-.books .horizontal {
+.books .card {
+  border: 2px solid black;
   padding: 0.5em;
+  margin: 0.2em 0.1em;
+  background-color: wheat;
+}
+
+.books .card a {
+  text-decoration: none;
+  color: #bd8b4a;
+}
+
+.books .card h3, .books .card .stars {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #bd8b4a;
+  border-radius: 0;
+}
+
+.books .horizontal {
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  border: 2px solid #bd8b4a;
+  background-color: white;
   margin: 0 0.1em;
 }
 
-.books .author, .books h4 {
+.books .horizontal .stars {
+  margin-top: 0.1em;
+  font-weight: bold;
+  color: orange;
+}
+
+.books .author {
   text-align: right;
 }
 
 footer {
   text-align: right;
+  -webkit-box-flex: 0;
+      -ms-flex-positive: 0;
+          flex-grow: 0;
+  margin: 0.5em 0;
 }
 /*# sourceMappingURL=style.css.map */

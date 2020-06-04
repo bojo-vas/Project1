@@ -4,94 +4,115 @@
     <div class="inbook">
         <form action="{{ url_for('search') }}" method="post">
             <input type="text" name="searched" placeholder="Enter title, author or ISBN">
-            <button><i class="fas fa-search"></i></button>
+            <button id="magnifier"><i class="fas fa-search"></i></button>
         </form>
     </div>
 {% endblock %}
 
-{% block body %}    
-     <h1>{{ book.title }}</h1>
-    {% if logged %}
-        <div class="book info">
-            <p class="author">by {{ book.author }}</p>
-            <p class="year">Publication year: {{ book.year }}</p>
-            <p class="isbn">ISBN: {{ book.isbn }}</p>
-            <p>Average Goodreads rating: {{ rating }}</p>
-            <p>Number of Goodreads ratings: {{ count }}</p>
-
-        </div>
-
-        {% if not gave_review %}
-        <div class="score">
-            <p>Leave your score and book review here:</p>
-            <form action="{{ url_for('rate') }}" method="post">
-                <p>Score: 
-                    <input type="radio" name="score" value="1" id="1">
-                    <label for="1">1</label>
-                    <input type="radio" name="score" value="2" id="2">
-                    <label for="2">2</label>
-                    <input type="radio" name="score" value="3" id="3">
-                    <label for="3">3</label>
-                    <input type="radio" name="score" value="4" id="4">
-                    <label for="4">4</label>
-                    <input type="radio" name="score" value="5" id="5">
-                    <label for="5">5</label>
-                </p>
-
-                    
-                
-                <textarea name="comment" placeholder="Enter your remarks here:"></textarea>  
-                <button type="submit">Submit</button>
-            </form>
-        </div>
-        {% else %}
-        <article>
-            <h2>Your review:</h2>
-            <p>Score: {{gave_review.score}} / 5</p>
-            {% if gave_review.comment %}
-            <h3>Comment:</h3>
-            <p>{{gave_review.comment}}</p>
-            {% endif %}
-        </article>
-        {% endif %}
-
-        {% if reviews %}
-        <div class="book review">
-            <h2>Reviews:</h2>
-            {% for review in reviews %}
-                <article>
-                    <p>
-                    <div>
-                    {% if review.name %}
-                        User: {{ review.name }}
+{% block body %}  
+    <div class="large flex">
+        <div class="left">
+            <h1>{{ book.title }}</h1>
+           {% if logged %}
+               <div class="book info">
+                   <p class="author">by {{ book.author }}</p>
+                   <p class="year">Publication year: {{ book.year }}</p>
+                   <p class="isbn">ISBN: {{ book.isbn }}</p>
+                   <p>Average Goodreads rating: {{ rating }}</p>
+                   <p>Number of Goodreads ratings: {{ count }}</p>
+       
+               </div>
+       
+               {% if not gave_review %}
+               <div class="score">
+                   <p>Leave your score and book review here:</p>
+                   <form action="{{ url_for('rate') }}" method="post">
+                       <p>Your Score: 
+                           <input type="radio" name="score" value="1" id="1">
+                           <label for="1">1</label>
+                           <input type="radio" name="score" value="2" id="2">
+                           <label for="2">2</label>
+                           <input type="radio" name="score" value="3" id="3">
+                           <label for="3">3</label>
+                           <input type="radio" name="score" value="4" id="4">
+                           <label for="4">4</label>
+                           <input type="radio" name="score" value="5" id="5">
+                           <label for="5">5</label>
+                       </p>               
+                       <textarea name="comment" placeholder="Enter your remarks here:"></textarea>  
+                       <button type="submit">Submit</button>
+                   </form>
+               </div>
+       
+               {% else %}
+               <div class="your score">
+                   <h2>Your review:</h2>
+                   <div class="stars">
+                       <p>
+                       {% for i in range(gave_review.score) %}
+                           <!-- <div class="full star"><i class="fas fa-star"></i></div> -->
+                           <i class="fas fa-star"></i>
+                       {% endfor %}
+                       {% for n in range(5 - gave_review.score) %}
+                           <!-- <div class="empty star"><i class="far fa-star"></i></div> -->
+                           <i class="far fa-star"></i>
+                       {% endfor %}
+                       </p>
+                   </div>
+                   <h3>Your Comment:</h3>
+                   {% if gave_review.comment %}
+                       <p class="comment">{{gave_review.comment}}</p>
                     {% else %}
-                        Username: {{ review.username }}
-                    {% endif %}
-                    </div>
-                    <div>
-                        {% if review.age %}
-                        age: {{ review.age }}
-                        {% endif %}
-                    </div>
-                    <div>
-                        {% if review.gender %}
-                        sex: {{ review.gender }}
-                        {% endif %}
-                    </div>
-                    <div>
-                        Score: {{ review.score }} / 5
-                    </div>
-                    </p>
-                    {% if review.comment %}
-                    <h4>Comment:</h4>
-                    <p>{{ review.comment }}</p>
-                    {% endif %}
-                    <p>--------------------</p>
-                </article>
-
-            {% endfor %}
-        </div>
-        {% endif %}
+                        <p class="comment">No comment left</p>
+                   {% endif %}
+               </div>
+               {% endif %}
+           </div>
+           <div class="right">
+               {% if reviews %}
+               <div class="book review">
+                   <h2>Reviews from other users:</h2>
+                   {% for review in reviews %}
+                       <article class="others">
+                           <div class="small flex">
+                               <div class="name">
+                               {% if review.name %}
+                                   User: {{ review.name }}
+                               {% else %}
+                                   Username: {{ review.username }}
+                               {% endif %}
+                               </div>
+                               <div class="sex">
+                               {% if review.gender == 'male' %}
+                                   <i class="fas fa-mars"></i>
+                               {% elif review.gender == 'female' %}
+                                   <i class="fas fa-venus"></i>
+                               {% endif %}
+                               </div>
+                               {% if review.age %}
+                               <div class="age">age: {{ review.age }}</div>
+                               {% endif %} 
+                           </div>        
+                            <div class="stars">
+                             <p>Score: 
+                             {% for i in range(review.score) %}
+                                 <i class="fas fa-star"></i>
+                             {% endfor %}
+                             {% for n in range(5 - review.score) %}
+                                 <i class="far fa-star"></i>
+                             {% endfor %}
+                             </p>
+                           </div>
+                           {% if review.comment %}
+                           <h4>Comment:</h4>
+                           <p class="comment">{{ review.comment }}</p>
+                           {% endif %}
+                       </article>
+                   {% endfor %}
+               </div>
+               {% endif %}
+           </div>
+    </div>
     {% else %}
     <h3 class="error">{{ message }}</h3>
     Please <a href="{{ url_for('log') }}"><i class="fas fa-sign-in-alt"> LogIn</i></a>

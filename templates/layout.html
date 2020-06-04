@@ -24,14 +24,17 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <div class="title"><h1>{% block heading %}{% endblock %}</h1></div>
-        <article class="content">
-            {% block body %}{% endblock %}
-        </article>
-    </main>
-    <footer>
-        <p>All rights reserved 2020 ®</p>
-    </footer>
+   <div class="body">
+        <main>
+            <div class="title"><h1>{% block heading %}{% endblock %}</h1></div>
+            <article class="content">
+                {% block body %}{% endblock %}
+            </article>
+        </main>
+        
+        <footer>
+            <p>All rights reserved 2020 ®</p>
+        </footer>
+   </div>
 </body>
 </html>
