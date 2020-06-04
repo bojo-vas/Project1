@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block heading %}
-    <div class="inbook search">
+    <div class="inbook">
         <form action="{{ url_for('search') }}" method="post">
             <input type="text" name="searched" placeholder="Enter title, author or ISBN">
             <button><i class="fas fa-search"></i></button>
@@ -23,11 +23,25 @@
 
         {% if not gave_review %}
         <div class="score">
-            <p>Stars and comment section</p>
+            <p>Leave your score and book review here:</p>
             <form action="{{ url_for('rate') }}" method="post">
-                <p>Score: <input type="radio" name="score" value="1"><input type="radio" name="score" value="2"><input type="radio" name="score" value="3"><input type="radio" name="score" value="4"><input type="radio" name="score" value="5"></p>
-                <input type="text" name="comment" placeholder="Enter your remarks here:">
-                <button>Submit</button>
+                <p>Score: 
+                    <input type="radio" name="score" value="1" id="1">
+                    <label for="1">1</label>
+                    <input type="radio" name="score" value="2" id="2">
+                    <label for="2">2</label>
+                    <input type="radio" name="score" value="3" id="3">
+                    <label for="3">3</label>
+                    <input type="radio" name="score" value="4" id="4">
+                    <label for="4">4</label>
+                    <input type="radio" name="score" value="5" id="5">
+                    <label for="5">5</label>
+                </p>
+
+                    
+                
+                <textarea name="comment" placeholder="Enter your remarks here:"></textarea>  
+                <button type="submit">Submit</button>
             </form>
         </div>
         {% else %}

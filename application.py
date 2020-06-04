@@ -197,6 +197,7 @@ def rate():
     if request.method == "POST" and request.form.get("score"):
         score = request.form.get("score")
         comment = request.form.get("comment")
+        print(comment)
         if not comment:
             comment = None
 

@@ -7,8 +7,8 @@
 {% block body %}
     <div class="search">
         <form action="{{ url_for('search') }}" method="post">
-            <p>Enter part or whole title, author or ISBN number of the book you search</p>
-            <input type="text" name="searched" placeholder="Enter title, author or ISBN number">
+            <p>Enter part or whole title, author or ISBN number of the book you search:</p>
+            <input type="text" name="searched" placeholder="Title, author or ISBN number">
             <button><i class="fas fa-search"></i>Search</button>
         </form>
     </div>
@@ -22,17 +22,27 @@
                 <th>Author</th>
                 <th>Title</th>
                 <th>Year</th>
-                <th></th>
+                <th>Reviews</th>
+                <th>Score</th>
+                <th>Book</th>
             </tr>
             {% for result in results %}
 
-                <tr>
-                    <td>{{loop.index}}</td>
+                <tr class="row">
+                    <td class="index">{{loop.index}}</td>
                     <td>{{result.isbn}}</td>
                     <td>{{result.author}}</td>
                     <td>{{result.title}}</td>
                     <td>{{result.year}}</td>
-                    <td><a href="book/{{result.isbn}}"> <i class="fas fa-book"></i></a></td>
+                    {% if result.revs > 0%}
+                    <td class="index">{{result.revs}}</td>
+                    <td class="index">{{ (result.total / result.revs)|round(1) }}</td>
+                    {% else %}
+                    <td class="index">-</td>
+                    <td class="index">-</td>
+                    {% endif %}
+                    <td class="link"><a href="book/{{result.isbn}}"><i class="fas fa-book"></i></a></td>
+                    
                 </tr>
 
             {% endfor %}

@@ -6,6 +6,7 @@ $titlecolor: rgb(189, 139, 74);
 * {
     border: 0px solid;
     border-radius: 1em;
+    outline:none;
 }
 
 body {
@@ -19,6 +20,15 @@ body {
 
 a {
     text-decoration: none;
+    cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+}
+
+textarea:focus, input:focus{
+    outline: none;
 }
 
 .fa-search {
@@ -85,11 +95,75 @@ main {
 }
 
 .search {
-    // input {
-    //     background-color: $backcolor;
-    //     min-height: 1.5em;
+    form {
+        margin-bottom: 1em;
+    }
 
-    // }
+    input {
+        background-color: $backcolor;
+        font-size: 1em;
+        border: 1.5px solid black;
+        width: 15em;
+        padding: 0.2em 0.5em;
+    }
+
+    button {
+        font-size: 1em;
+        border: 1.5px solid black;
+        padding: 0.25em;
+        
+        
+
+    }
+
+    button:hover {
+        
+        background-color: $titlecolor;
+       
+    }
+
+    p {
+        padding: 1em 0;
+    }
+}
+
+.results {
+    table {
+        margin-top: 0.5em;
+        border-collapse: collapse;
+
+        * {
+            border-radius: 0;
+            padding: 0.2em 0.5em;
+    
+        }
+
+        a { 
+            color: brown;
+        }
+
+        .row:nth-child(even){
+            background-color: $backcolor;
+            
+        }
+
+        .row:hover {
+            background-color: $titlecolor;
+        }
+
+        .index {
+            text-align: center;
+        }
+    
+        .link {
+            font-size: 1.3em;
+            padding: 0;
+                    
+        }
+    }
+  
+    
+
 }
 
 .inbook {
@@ -122,17 +196,82 @@ main {
         font-size: 1em;
     }
 
+    i:hover {
+        color: brown;
+    }
+
     ::placeholder {
         color: white
     }
 
-    textarea:focus, input:focus{
-        outline: none;
+}
+
+.score {
+    margin-top: 1em;
+    width: 22em;
+
+
+    form {
+        padding-top: 0.5em;
+
+        p {
+            margin-bottom: 0.5em;
+            
+        }
+        textarea {
+            font-size: 1.3em;
+            padding: 0.5em;
+            
+            max-width: 90%;
+            min-width: 90%;
+            min-height: 6em;
+            border: 1px solid $titlecolor;
+            
+        }
+
+        button {
+            width: 90%;
+            background-color: $titlecolor;
+            color: white;
+            font-size: 1em;
+            
+
+        }
+
+        input[type=radio] {
+            opacity: 0;
+            position: fixed;
+            width: 0;         
+            
+        }
+
+        label {
+            cursor: pointer; 
+            display: inline-block;
+            background-color: rgb(233, 218, 186);
+            padding: 0.1em 0.4em;
+            border: 2px solid #444;
+            border-radius: 1em;
+        }
+
+        label:hover {
+            background-color: $backcolor;
+          }
+
+        input[type=radio]:checked + label {
+            background-color:$titlecolor;
+        }
+       
+        input[type=radio]:focus + label {
+            background-color:$titlecolor;
+        }
+
     }
 }
 
 .content {
     padding-top: 0.5em;
+    
 }
 
 .books {
