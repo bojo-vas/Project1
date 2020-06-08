@@ -6,20 +6,7 @@
 
  {% block body %}
     <div class="books">
-        <div class="most review">
-            <h2>Most Reviewed Books</h2>
-            <article>
-                {% for rev in most_rated %}
-            <div class="card vertical">
-                <a href="book/{{rev.isbn}}"><h3>{{ rev.title }}</h3></a>
-                <h4>by {{ rev.author }}</h4>
-                <h4>Av.Score:</h4>
-                <p>{{ (rev.total / rev.revs)|round(2) }} out of 5.0</p>
-                <p>Total user reviews:{{ rev.revs }}</p>
-            </div>
-            {% endfor %}
-            </article>
-        </div>
+        
         <div class="last review">
             <h2>Last Reviews by users</h2>
             <article>
@@ -49,8 +36,24 @@
                     </div>
                 {% endfor %}
             </article>
+
+            
+
         </div>
-        
+        <div class="most review">
+            <h2>Most Reviewed Books</h2>
+            <article>
+                {% for rev in most_rated %}
+            <div class="card vertical">
+                <a href="book/{{rev.isbn}}"><h3>{{ rev.title }}</h3></a>
+                <h4>by {{ rev.author }}</h4>
+                <h5>Average Score:</h5>
+                <p><strong>{{ (rev.total / rev.revs)|round(2) }}</strong> out of 5.0</p>
+                <p>Total reviews: <strong>{{ rev.revs }}</strong></p>
+            </div>
+            {% endfor %}
+            </article>
+        </div>
     </div>
 
 {% endblock %}

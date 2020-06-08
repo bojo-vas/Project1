@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block body %}
-    <p>Thank you for your visit {{ username }}!</p>
+    <p>Thank you for your visit <strong style="font-size: 1.2em; color:chocolate;">{{ username }}</strong>!</p>
     <form action="{{ url_for('log') }}" method="post">
 
         <button name="logout" value="True">Log Out</button>

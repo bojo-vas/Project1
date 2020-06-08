@@ -49,12 +49,16 @@ def home():
 
 @app.route("/profile")  # username, password change, name, picture?!, reviewed books, highest, lowest, user-rating
 def profile():
-    title = "User Profile"
-    headline = "User Profile"
+    if session["is_logged"]:
+        title = "User Profile"
+        headline = "User Profile"
+        username = session["username"]
+        name = session["user_name"] 
 
-    last_revs = db.execute(f"SELECT books.isbn, books.author, books.title, reviews.score, reviews.comment FROM reviews INNER JOIN books ON reviews.isbn=books.isbn WHERE reviews.user_id={session['user_id']} ORDER BY reviews.id DESC LIMIT 10 ").fetchall()
-    
-    return render_template("index.html", title=title, headline=headline, logged=session["is_logged"], last_revs=last_revs)
+        last_revs = db.execute(f"SELECT books.isbn, books.author, books.title, reviews.score, reviews.comment FROM reviews INNER JOIN books ON reviews.isbn=books.isbn WHERE reviews.user_id={session['user_id']} ORDER BY reviews.id DESC LIMIT 10 ").fetchall()
+
+        return render_template("profile.html", title=title, headline=headline, logged=session["is_logged"], last_revs=last_revs, username=username, name=name)
+    return render_template("error.html", logged=session["is_logged"], message='Unavailable', info='Restricted area! Please log in or register if not already.')
 
 
 @app.route("/log", methods=["GET", "POST"])
@@ -189,7 +193,8 @@ def book(isbn: str):
         return render_template("book.html", logged=session["is_logged"], book=session['now_book'], gave_review=gave_review,
                            reviews=reviews, rating=session["rating"], count=session["count"], headline = isbn)
 
-    return render_template("book.html", logged=session["is_logged"], book=session['now_book'], message="Unavailable", headline = isbn)
+    # return render_template("book.html", logged=session["is_logged"], book=session['now_book'], message="Unavailable", headline = isbn)
+    return render_template("error.html", logged=session["is_logged"], message='Unavailable', info='Restricted area! Please log in or register if not already.')
 
 
 @app.route("/rate", methods=["GET", "POST"])  # only one customer review per book
@@ -239,4 +244,4 @@ def api(isbn):
         }
 
         return book_data
-    return render_template("error.html", message="Error 404", info="No such book ISBN in database. Please try again.")
+    return render_template("error.html", message="Error 404", info="No such book ISBN in our database. Please try again.")

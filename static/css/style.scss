@@ -5,7 +5,7 @@ $titlecolor: rgb(189, 139, 74);
 
 * {
     border: 0px solid;
-    border-radius: 1em;
+    // border-radius: 1em;
     outline:none;
 }
 
@@ -22,6 +22,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+   
 }
 
 a {
@@ -37,7 +38,7 @@ form {
     button {
         font-size: 1em;
         border: 1.5px solid black;
-        padding: 0.25em;
+        padding: 0.3em;
         margin: 0.5em 0;
     }
 
@@ -48,6 +49,7 @@ form {
 
 textarea:focus, input:focus{
     outline: none;
+    
 }
 
 .fa-search {
@@ -80,6 +82,10 @@ header {
             align-items: center;
         }
 
+        a:hover {
+            color: white
+        }
+
         .label {
             padding-bottom: 0.2em;
         }
@@ -98,6 +104,10 @@ main {
     background-color: $maincolor;
     flex-basis: 85vh;
     flex-grow: 9;
+   
+    background-image: url("../images/6.jpg");
+    background-position: left bottom;
+    background-repeat: no-repeat;
 }
 
 .title {
@@ -132,7 +142,7 @@ main {
     table {
         margin-top: 0.5em;
         border-collapse: collapse;
-
+        background-color: white;
         * {
             border-radius: 0;
             padding: 0.2em 0.5em;
@@ -218,11 +228,13 @@ main {
         }
         textarea {
             margin-bottom: 0.2em;
-            font-size: 1.3em;
+            font-size: 1.1em;
             padding: 0.5em;
             max-width: 90%;
             min-width: 90%;
             border: 2px solid $titlecolor;
+            overflow: hidden;
+            min-height: 10em;
             
         }
 
@@ -233,6 +245,10 @@ main {
             color: white;
             font-size: 1.5em;
 
+        }
+
+        button:hover {
+            background-color: saddlebrown;
         }
 
         input[type=radio] {
@@ -297,12 +313,17 @@ main {
 }
 
 .left {
-    flex-basis: 55%;
+    flex-basis: 50%;
 }
 
 .right {
-    flex-basis: 40%;
+    border-radius: 0;
+    flex-basis: 50%;
     // flex-grow: 1;
+    height: 82vh;
+    overflow: auto;
+    padding-right: 1em;
+    
     
 }
 
@@ -318,6 +339,12 @@ main {
     padding: 0.5em 1em;
     margin-top: 0.5em;
     background-color: $backcolor;
+    
+    a {
+        text-decoration: none;
+        color: chocolate;
+        
+    }
 
     .comment {
         background-color: wheat;
@@ -343,7 +370,7 @@ main {
 
 
 .content {
-    max-width: 90%;
+    max-width: 92%;
     margin: 0 auto;
     padding-top: 0.5em;
     display: block;
@@ -361,29 +388,28 @@ main {
        padding: 0.5em;
    }
     
-   .most {
+   .last {
         background-color: wheat;
         margin-bottom: 2em;
-        flex-basis: 70%;
+        flex-basis: 80%;
         flex-grow: 2;
         
 
         article {
-            max-width: 75%;
-            display: flex;  
-                
-            min-height: 80%; 
+            max-width: 78%;
             
         }
         
     }
 
-    .last {
-        flex-basis: 30%;
+    .most {
+        flex-basis: 20%;
         flex-grow: 1;
         background-color: $titlecolor;
         margin-top: 2em;
         margin-left: -20%;
+
+        
 
     }
     
@@ -391,6 +417,7 @@ main {
         border: 2px solid black;
         padding: 0.5em;
         margin: 0.2em 0.1em;
+        background-color: wheat;
 
         a {
             text-decoration: none;
@@ -398,29 +425,34 @@ main {
             
         }
 
-        background-color: wheat;
-
         h3, .stars {
             margin-bottom: 0.5em;
             padding-bottom: 0.5em;
             border-bottom: 2px solid $titlecolor;
             border-radius: 0;
         }
+
+        h4 {
+            margin-bottom: 0.5em;
+            padding-bottom: 0.5em;
+        }
+
+        strong {
+            color: red;
+        }
+
     }
 
     .horizontal {
-        flex-basis: 25%;
         flex-grow: 1;
         border: 2px solid $titlecolor;
         background-color: white;
-        margin: 0 0.1em;
+        
         
         .stars {
             margin-top: 0.1em;
             font-weight: bold;
             color: orange;
-            
-
         }
     }
     
@@ -429,7 +461,62 @@ main {
     }
 }
 
+.login, .register {
+    
+    p {
+        margin-top: 0.5em;
+    }
 
+    input {
+        border-radius: 0;
+        border-bottom: 2px solid $titlecolor;
+        margin-right: 2em;
+    }
+
+    .error {
+        color: red;
+        font-size: 0.9em;
+    }
+
+    button {
+        margin-top: 1em;
+        
+    }
+}
+
+.register {
+    margin-top: 1em;
+
+    .age {
+        width: 2.5em;
+    }
+
+    #female, #male {
+        
+        margin: 0 0.2em 2em 1em;
+    }
+
+    input {
+        font-size: 1em;
+    }
+    
+
+
+
+    .username {
+        margin-top: 2em;
+
+        .password {
+            margin-left: 0.5em;
+        }
+        
+        .second {
+            margin-left: 6em;
+            margin-bottom: 2em;
+        }
+    }
+
+}
 
 footer {
     text-align: right;

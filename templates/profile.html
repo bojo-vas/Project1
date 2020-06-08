@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block heading %}
+    <h1>User Profile</h1>
+{% endblock %}
+
+{% block body %}  
+    <div class="large flex">
+        <div class="left">
+            <p>Username: {{ username }}</p>
+            <p>Name: {{ name }}</p>
+        </div>  
+        <div class="right">
+            <h2>Last 10 reviews for books:</h2>
+            {% if not last_revs %}
+            <h3>No reviews yet!</h3>
+            <p>Feel free to browse and leave reviews and scores for all books and authors.</p>
+            <p>Use the search engine - it is available for all registered users logged on the web page.</p>
+            <p>Thank You!</p>
+            {% else %}
+            <div class="book review">
+                
+                {% for review in last_revs %}
+                    <article class="others">
+                        <a href="book/{{review.isbn}}"><h3>{{ review.title }}</h3></a>
+                        <h5>{{ review.author }}</h5>
+                        <div class="stars">
+                          <p>Score: 
+                          {% for i in range(review.score) %}
+                              <i class="fas fa-star"></i>
+                          {% endfor %}
+                          {% for n in range(5 - review.score) %}
+                              <i class="far fa-star"></i>
+                          {% endfor %}
+                          </p>
+                        </div>
+                        {% if review.comment %}
+                        <h4>Your Comment:</h4>
+                        <p class="comment">{{ review.comment }}</p>
+                        {% endif %}
+                    </article>
+                {% endfor %}
+            </div>
+
+            {% endif %}
+        </div>    
+           
+{% endblock %}

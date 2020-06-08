@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block body %}
-    <p>Please log in using your username and password or <a href="{{ url_for('register') }}">register</a> if you have not already</p>
-    <form action="{{ url_for('log_in') }}" method="post">
-        <p><input type="text" name="username" placeholder="username" autofocus> <span class="error">{{ problem }}</span></p>
+    <p>Please log in using your username and password or <strong style="color: chocolate;"><a href="{{ url_for('register') }}">register</a></strong> if you have not already</p>
+    <form action="{{ url_for('log_in') }}" method="post" class="login">
+        <p><input type="text" name="username" placeholder="username"> <span class="error">{{ problem }}</span></p>
         <p><input type="password" name="password" placeholder="password"></p>
         <button name="login" value="True">Log In</button>
     </form>

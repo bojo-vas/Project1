@@ -1,6 +1,5 @@
 * {
   border: 0px solid;
-  border-radius: 1em;
   outline: none;
 }
 
@@ -37,7 +36,7 @@ button {
 form button {
   font-size: 1em;
   border: 1.5px solid black;
-  padding: 0.25em;
+  padding: 0.3em;
   margin: 0.5em 0;
 }
 
@@ -87,6 +86,10 @@ header nav a {
           align-items: center;
 }
 
+header nav a:hover {
+  color: white;
+}
+
 header nav .label {
   padding-bottom: 0.2em;
 }
@@ -105,6 +108,9 @@ main {
   -webkit-box-flex: 9;
       -ms-flex-positive: 9;
           flex-grow: 9;
+  background-image: url("../images/6.jpg");
+  background-position: left bottom;
+  background-repeat: no-repeat;
 }
 
 .title {
@@ -136,6 +142,7 @@ main {
 .results table {
   margin-top: 0.5em;
   border-collapse: collapse;
+  background-color: white;
 }
 
 .results table * {
@@ -228,11 +235,13 @@ main {
 
 .score form textarea {
   margin-bottom: 0.2em;
-  font-size: 1.3em;
+  font-size: 1.1em;
   padding: 0.5em;
   max-width: 90%;
   min-width: 90%;
   border: 2px solid #bd8b4a;
+  overflow: hidden;
+  min-height: 10em;
 }
 
 .score form button {
@@ -241,6 +250,10 @@ main {
   background-color: #bd8b4a;
   color: white;
   font-size: 1.5em;
+}
+
+.score form button:hover {
+  background-color: saddlebrown;
 }
 
 .score form input[type=radio] {
@@ -304,13 +317,17 @@ main {
 }
 
 .left {
-  -ms-flex-preferred-size: 55%;
-      flex-basis: 55%;
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
 }
 
 .right {
-  -ms-flex-preferred-size: 40%;
-      flex-basis: 40%;
+  border-radius: 0;
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+  height: 82vh;
+  overflow: auto;
+  padding-right: 1em;
 }
 
 .comment {
@@ -325,6 +342,11 @@ main {
   padding: 0.5em 1em;
   margin-top: 0.5em;
   background-color: #e2ca76;
+}
+
+.others a {
+  text-decoration: none;
+  color: chocolate;
 }
 
 .others .comment {
@@ -350,7 +372,7 @@ main {
 }
 
 .content {
-  max-width: 90%;
+  max-width: 92%;
   margin: 0 auto;
   padding-top: 0.5em;
   display: block;
@@ -371,27 +393,23 @@ main {
   padding: 0.5em;
 }
 
-.books .most {
+.books .last {
   background-color: wheat;
   margin-bottom: 2em;
-  -ms-flex-preferred-size: 70%;
-      flex-basis: 70%;
+  -ms-flex-preferred-size: 80%;
+      flex-basis: 80%;
   -webkit-box-flex: 2;
       -ms-flex-positive: 2;
           flex-grow: 2;
 }
 
-.books .most article {
-  max-width: 75%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  min-height: 80%;
+.books .last article {
+  max-width: 78%;
 }
 
-.books .last {
-  -ms-flex-preferred-size: 30%;
-      flex-basis: 30%;
+.books .most {
+  -ms-flex-preferred-size: 20%;
+      flex-basis: 20%;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
@@ -419,15 +437,21 @@ main {
   border-radius: 0;
 }
 
+.books .card h4 {
+  margin-bottom: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.books .card strong {
+  color: red;
+}
+
 .books .horizontal {
-  -ms-flex-preferred-size: 25%;
-      flex-basis: 25%;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   border: 2px solid #bd8b4a;
   background-color: white;
-  margin: 0 0.1em;
 }
 
 .books .horizontal .stars {
@@ -438,6 +462,54 @@ main {
 
 .books .author {
   text-align: right;
+}
+
+.login p, .register p {
+  margin-top: 0.5em;
+}
+
+.login input, .register input {
+  border-radius: 0;
+  border-bottom: 2px solid #bd8b4a;
+  margin-right: 2em;
+}
+
+.login .error, .register .error {
+  color: red;
+  font-size: 0.9em;
+}
+
+.login button, .register button {
+  margin-top: 1em;
+}
+
+.register {
+  margin-top: 1em;
+}
+
+.register .age {
+  width: 2.5em;
+}
+
+.register #female, .register #male {
+  margin: 0 0.2em 2em 1em;
+}
+
+.register input {
+  font-size: 1em;
+}
+
+.register .username {
+  margin-top: 2em;
+}
+
+.register .username .password {
+  margin-left: 0.5em;
+}
+
+.register .username .second {
+  margin-left: 6em;
+  margin-bottom: 2em;
 }
 
 footer {

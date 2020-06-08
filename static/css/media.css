@@ -32,6 +32,17 @@
         font-size: 0.8em;
     }
 
+    article {
+        max-width: 100 !important;
+}    
+    .large {
+        display: block;
+    }
+
+}
+
+
+@media screen and (max-width: 450px) {
     .books {
         display: block;       
     }
@@ -41,12 +52,7 @@
         max-width: 100% !important;
     }
 
-    article {
-        max-width: 100 !important;
-}    
-    .large {
-        display: block;
-    }
+}
 
 /* @media screen and (max-width: 475px) {
     /* h3 {
@@ -71,4 +77,4 @@
     header {
         flex: 8vh 0 1;
     }
-} */ */
+} */ 
