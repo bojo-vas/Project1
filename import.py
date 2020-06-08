@@ -10,6 +10,9 @@ def main():
     with open("books.csv", "r") as file:
         lines = csv.reader(file, quoting=csv.QUOTE_NONE)
         for line in lines:
+            if line[0]== 'isbn':
+                continue
+            
             if len(line) == 4:
                 isbn, title, author, year = line
                 db.execute("INSERT INTO books (isbn, title, author, year) VALUES (:isbn, :title, :author, :year)",

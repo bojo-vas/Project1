@@ -4,7 +4,7 @@ file = open("books.csv", "r")
 lines = csv.reader(file, quoting=csv.QUOTE_NONE)
 
 for line in lines:
-    if len(line) == 4:
+    if len(line) == 4 and line[0]!= 'isbn':
         print(f"{counter} : {line}")
         counter +=1
         continue

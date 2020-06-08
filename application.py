@@ -8,6 +8,8 @@ from pip._vendor import requests
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
+from pass_crypt import pass_crypt
+
 app = Flask(__name__)
 
 # Check for environment variable
@@ -67,7 +69,7 @@ def log():
         if request.method == "POST" and request.form.get("logout"):
             session["is_logged"] = False
             return redirect(url_for('home'))
-            # return render_template("login.html", title="Log In", logged=session["is_logged"])
+
         return render_template("logout.html", title="Logging Out...", username=session["username"], logged=session["is_logged"])
     else:
         return render_template("login.html", title="Log In", logged=session["is_logged"])
@@ -90,7 +92,9 @@ def log_in():
             return render_template("login.html", title="Log In", problem=err_msg)
         else:
             pw = user.password
-            if pw != password:
+
+            if not pass_crypt(password, pw):
+            # if pw != password:
                 err_msg = "Wrong password"
                 return render_template("login.html", title="Log In", problem=err_msg)
             else:
@@ -137,10 +141,10 @@ def register():
         if pass_err or us_err:
             return render_template("register.html", title="Register", username_problem=us_err, password_problem=pass_err)
         else:
-            # password =
+            password = pass_crypt(password_1)
             # submit to db
             db.execute("INSERT INTO users (username, password, name, age, gender) VALUES (:username, :password, :name, :age, :gender)",
-                       {"username": username, "password": password_1, "name": name, "age": age, "gender": gender})
+                       {"username": username, "password": password, "name": name, "age": age, "gender": gender})
 
             db.commit()
             return render_template("login.html", title="Login")
