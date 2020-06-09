@@ -10,7 +10,7 @@ def main():
     with open("books.csv", "r") as file:
         lines = csv.reader(file, quoting=csv.QUOTE_NONE)
         for line in lines:
-            if line[0]== 'isbn':
+            if line[0] == 'isbn':
                 continue
             
             if len(line) == 4:

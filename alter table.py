@@ -10,8 +10,8 @@ print("Started...")
 start = time.time()
 
 # change all passwords :)
-db.execute(f"UPDATE users SET password = '53.53.53.53'")
-db.commit()
+# db.execute(f"UPDATE users SET password = '53.53.53.53'")
+# db.commit()
 
 # db.execute("ALTER TABLE books ADD av_score AS "
 #            "CASE WHEN revs = 0 THEN 0 "
@@ -53,10 +53,10 @@ db.commit()
 #         last_isbn = isbn
 #         last_user_id = user_id
 #
-finish = time.time()
-delta = finish - start
-print("All done!")
-print(f"In Seconds = {delta}")
-print(f"Operation time: {delta // 60} mins and {delta % 60} secs")
+# finish = time.time()
+# delta = finish - start
+# print("All done!")
+# print(f"In Seconds = {delta}")
+# print(f"Operation time: {delta // 60} mins and {delta % 60} secs")
 
 # # db.execute("ALTER TABLE users ADD FOREIGN KEY (id) REFERENCES reviews(user_id)")

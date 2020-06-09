@@ -8,7 +8,7 @@ def pass_crypt(o_pass: str, stored_pass=None):
         return crypted_pass == stored_pass
     return crypted_pass
 
-
-password = input()
-print(pass_crypt(password))
-print(pass_crypt(password, '53.53.53.53'))  # encryption for '1111'
+#
+# password = input()
+# print(pass_crypt(password))
+# print(pass_crypt(password, '53.53.53.53'))  # encryption for '1111'

@@ -1,5 +1,3 @@
-import datetime
-
 import os
 
 from flask import Flask, render_template, session, request, redirect, url_for
@@ -19,8 +17,10 @@ if not os.getenv("DATABASE_URL"):
 # Configure session to use filesystem
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
+# browsing data for css
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 app.static_folder = 'static'
+
 Session(app)
 
 # Set up database
@@ -30,6 +30,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")  # best rated, most rated, last rated
 def home():
+    
     if "is_logged" not in session:
         session["is_logged"] = False
     title = "BestBooks.com"
@@ -57,10 +58,14 @@ def profile():
         username = session["username"]
         name = session["user_name"] 
 
-        last_revs = db.execute(f"SELECT books.isbn, books.author, books.title, reviews.score, reviews.comment FROM reviews INNER JOIN books ON reviews.isbn=books.isbn WHERE reviews.user_id={session['user_id']} ORDER BY reviews.id DESC LIMIT 10 ").fetchall()
+        last_revs = db.execute(f"SELECT books.isbn, books.author, books.title, reviews.score, reviews.comment "
+                               f"FROM reviews INNER JOIN books ON reviews.isbn=books.isbn "
+                               f"WHERE reviews.user_id={session['user_id']} ORDER BY reviews.id DESC LIMIT 10 ").fetchall()
 
-        return render_template("profile.html", title=title, headline=headline, logged=session["is_logged"], last_revs=last_revs, username=username, name=name)
-    return render_template("error.html", logged=session["is_logged"], message='Unavailable', info='Restricted area! Please log in or register if not already.')
+        return render_template("profile.html", title=title, headline=headline, logged=session["is_logged"],
+                               last_revs=last_revs, username=username, name=name)
+    return render_template("error.html", logged=session["is_logged"], message='Unavailable',
+                           info='Restricted area! Please log in or register if not already.')
 
 
 @app.route("/log", methods=["GET", "POST"])
@@ -70,7 +75,8 @@ def log():
             session["is_logged"] = False
             return redirect(url_for('home'))
 
-        return render_template("logout.html", title="Logging Out...", username=session["username"], logged=session["is_logged"])
+        return render_template("logout.html", title="Logging Out...", username=session["username"],
+                               logged=session["is_logged"])
     else:
         return render_template("login.html", title="Log In", logged=session["is_logged"])
 
@@ -83,7 +89,8 @@ def log_in():
         username = request.form.get("username")
         password = request.form.get("password")
         if len(username) < 4 or len(password) < 4:
-            return render_template("login.html", title="Log In", problem="Username and password should be 4 signs or more")
+            return render_template("login.html", title="Log In",
+                                   problem="Username and password should be 4 signs or more")
         # db check
         user = db.execute(f"SELECT * FROM users WHERE username = '{username}'").fetchone()
 
@@ -93,8 +100,8 @@ def log_in():
         else:
             pw = user.password
 
-            if not pass_crypt(password, pw):
             # if pw != password:
+            if not pass_crypt(password, pw):
                 err_msg = "Wrong password"
                 return render_template("login.html", title="Log In", problem=err_msg)
             else:
@@ -143,7 +150,8 @@ def register():
         else:
             password = pass_crypt(password_1)
             # submit to db
-            db.execute("INSERT INTO users (username, password, name, age, gender) VALUES (:username, :password, :name, :age, :gender)",
+            db.execute("INSERT INTO users (username, password, name, age, gender) "
+                       "VALUES (:username, :password, :name, :age, :gender)",
                        {"username": username, "password": password, "name": name, "age": age, "gender": gender})
 
             db.commit()
@@ -167,7 +175,8 @@ def search():
                 f"OR LOWER(title) LIKE '%{word}%' ORDER BY author LIMIT 100").fetchall())
             return render_template("input.html", logged=session["is_logged"], results=results, first=False)
         return render_template("input.html", logged=session["is_logged"], results=results, first=True)
-    return render_template("error.html", message="Unavailable", info="Please log in to use all functionality available")
+    return render_template("error.html", message="Unavailable",
+                           info="Please log in to use all functionality available")
 
 
 # details about the book: title, author, publication year, ISBN number, and any reviews + Goodreads Review Data
@@ -182,11 +191,12 @@ def book(isbn: str):
         gave_review = db.execute(f"SELECT * FROM reviews WHERE isbn = '{isbn}' AND user_id = '{session['user_id']}'").fetchone()
         session['gave_review'] = gave_review
 
-        reviews = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews ON reviews.user_id=users.id "
-                         f"WHERE isbn = '{isbn}' AND user_id != '{session['user_id']}' ORDER BY reviews.id DESC").fetchall()
+        reviews = db.execute(f"SELECT username, name, gender, age, score, comment FROM users JOIN reviews "
+                             f"ON reviews.user_id=users.id WHERE isbn = '{isbn}' AND user_id != '{session['user_id']}' "
+                             f"ORDER BY reviews.id DESC").fetchall()
 
         session['reviews'] = reviews
-    #GOODREADS info
+        #GOODREADS info
         result = requests.get("https://www.goodreads.com/book/review_counts.json",
                              params={"key": "OkeAxEncKe0vfY0MlZsiw", "isbns": f"{isbn}"})
         book_info = result.json()

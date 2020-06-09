@@ -5,11 +5,13 @@
 {% endblock %}
 
 {% block body %}
-    <p>Please enter your name, age and gender bellow:</p>
-    <form action="{{ url_for('register') }}" method="post" class="register">
+    <p>Please enter your name, age and gender bellow: (optional)</p>
+    
+    <form action="{{ url_for('register') }}" method="post" class="register">       
         <p>Name: <input type="text" name="name" placeholder="ex.: Read Reader Jr."></p>
         <p>Age: <input type="number" name="age" min="1" max="100" class="age" placeholder="18"></p>
         <p>Gender: <input type="radio" id="female" name="gender" value="female"><label for="female"><i class="fas fa-female"></i> <i class="fas fa-venus"></i></label>  <input type="radio" id="male" name="gender" value="male"><label for="male"><i class="fas fa-male"></i> <i class="fas fa-mars"></i></label> </p>
+        
         <p>Choose your username and password.</p>
         <p>Both should be more than 4 symbols long and consist of letters and digits only.</p>
         <div class="username">
